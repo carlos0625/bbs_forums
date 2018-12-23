@@ -20,7 +20,7 @@ public class JwtConfig {
         registrationBean.setFilter(new JwtFilter());
 //        registrationBean.addUrlPatterns("/secure/*");
 //        registrationBean.addUrlPatterns("/user/*");
-//        registrationBean.addUrlPatterns("/article/*");
+        registrationBean.addUrlPatterns("/article/*");
 //        registrationBean.addUrlPatterns("/comment/*");
 //        registrationBean.addUrlPatterns("/reversion/*");
         return registrationBean;

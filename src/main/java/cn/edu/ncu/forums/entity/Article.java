@@ -19,6 +19,9 @@ public class Article {
     @Column(length = 40, nullable = false)
     private String title;
 
+    @Column(length = 40, nullable = false)
+    private String subTitle;
+
     @Lob
     @Column(nullable = false, columnDefinition = "text")
     private String content;
@@ -121,6 +124,14 @@ public class Article {
 
     public void setPicked(Boolean picked) {
         this.picked = picked;
+    }
+
+    public String getSubTitle() {
+        return subTitle;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
     }
 
     @Override
