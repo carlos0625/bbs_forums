@@ -10,7 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,8 +34,38 @@ public class ArticleService {
      * @return 消息，1为状态码
      */
     public Message addArticle(Article article) {
+        article.setCommentNumber(0L);
+        article.setDislikedNumber(0L);
+        article.setLikedNumber(0L);
+        article.setCreatedTime(new Timestamp(new Date().getTime()));
+        article.setPicked(false);
         articleDao.save(article);
-        return new Message(201, "success", article);
+        return new Message(1, "success", article);
+    }
+
+    /**
+     * 通过articleId获取文章内容
+     * @param articleId 文章id
+     * @return message
+     */
+    public Message getContent(Long articleId) {
+        return new Message(1, "success", articleDao.findArticleById(articleId).getContent());
+    }
+
+    /**
+     * 多表查询，查询对应文章的用户信息
+     * @return message
+     */
+    public Message findAllUserArticle() {
+        return new Message(1, "success", articleDao.findUserArticle());
+    }
+
+    /**
+     * 查询所有文章，不分页
+     * @return message
+     */
+    public Message findAll() {
+        return new Message(1, "success", articleDao.findAll());
     }
 
     /**
@@ -49,7 +81,7 @@ public class ArticleService {
         for (Article article: articlePage) {
             articles.add(article);
         }
-        return new Message(200, "success", articles);
+        return new Message(1, "success", articles);
     }
 
     /**
@@ -60,7 +92,7 @@ public class ArticleService {
      */
     public Message updatePicked(Boolean picked, Long articleId) {
         articleDao.updatePickedById(picked, articleId);
-        return new Message(201, "set picked success", null);
+        return new Message(1, "set picked success", 1);
     }
 
     /**
@@ -71,7 +103,7 @@ public class ArticleService {
      */
     public Message updateContent(String content, Long articleId) {
         articleDao.updateContentById(content, articleId);
-        return new Message(201, "modified content success", null);
+        return new Message(1, "modified content success", null);
     }
 
     /**
@@ -90,6 +122,6 @@ public class ArticleService {
      * @return message
      */
     public Message findById(Long id) {
-        return new Message(200, "the article existed", articleDao.findArticleById(id));
+        return new Message(1, "the article existed", articleDao.findArticleById(id));
     }
 }

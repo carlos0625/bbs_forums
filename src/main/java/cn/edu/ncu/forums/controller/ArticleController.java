@@ -33,6 +33,16 @@ public class ArticleController {
     }
 
     /**
+     * 获取所有文章列表
+     * @return message
+     */
+    @GetMapping("/list")
+    @ResponseBody
+    public Message getAllArticles() {
+        return articleService.findAllUserArticle();
+    }
+
+    /**
      * 查询所有文章（分页查询）api, url: localhost:8090/article/getArticlePage
      * @param page 第几页，从0开始
      * @param size 页面大小
@@ -50,9 +60,9 @@ public class ArticleController {
      * @param articleId 文章id
      * @return message
      */
-    @PostMapping("/setPicked")
+    @GetMapping("/setPicked")
     @ResponseBody
-    public Message setPicked(Boolean picked, Long articleId) {
+    public Message setPicked(@RequestParam("picked") Boolean picked, @RequestParam("id") Long articleId) {
         return articleService.updatePicked(picked, articleId);
     }
 
@@ -89,5 +99,11 @@ public class ArticleController {
     @ResponseBody
     public Message findById(@RequestParam ("articleId") Long id) {
         return articleService.findById(id);
+    }
+
+    @GetMapping("/content")
+    @ResponseBody
+    public Message getContentById(@RequestParam ("articleId") Long id) {
+        return articleService.getContent(id);
     }
 }

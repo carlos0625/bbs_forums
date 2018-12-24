@@ -7,6 +7,8 @@ import cn.edu.ncu.forums.utils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,8 +32,10 @@ public class CommentService {
      * @return 消息
      */
     public Message addComment(Comment comment) {
+        comment.setCommentTime(new Timestamp(new Date().getTime()));
+        comment.setReversionNumber(0L);
         commentDao.save(comment);
-        return new Message(201, "success", comment);
+        return new Message(1, "success", comment);
     }
 
     /**
@@ -41,7 +45,7 @@ public class CommentService {
      */
     public Message findAllCommentsById(Long articleId) {
         List<Comment> comments = commentDao.findAllByArticleId(articleId);
-        return new Message(200, "search success", comments);
+        return new Message(1, "search success", comments);
     }
 
     /**
@@ -53,7 +57,7 @@ public class CommentService {
         //删除对应的评论回复
         reversionDao.deleteReversionsByCommentId(commentId);
         commentDao.deleteById(commentId);
-        return new Message(204, "delete success", null);
+        return new Message(1, "delete success", null);
     }
 
     /**
@@ -68,6 +72,6 @@ public class CommentService {
             reversionDao.deleteReversionsByCommentId(comment.getId());
         }
         commentDao.deleteAllByArticleId(articleId);
-        return new Message(204, "delete all comments success", null);
+        return new Message(1, "delete all comments success", null);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Description: 用户服务层
@@ -31,13 +31,18 @@ public class UserService {
      * @param user 用户对象
      */
     public Message addUser(User user) {
+        user.setAuthority("user");
+        user.setImage("1.png");
         //用户不存在，则进行注册
         if (userDao.findUserByUsername(user.getUsername()) == null) {
-            return new Message(201, "register successfully", user);
+            userDao.save(user);
+            System.out.println("注册成功");
+            return new Message(1, "register successfully", user);
         }
         //用户已存在，返回错误信息
         else {
-            return new Message(400, "fail to register, the user has existed", null);
+            System.out.println("注册失败");
+            return new Message(0, "fail to register, the user has existed", null);
         }
     }
 
@@ -51,23 +56,25 @@ public class UserService {
 
         //用户名为空
         if ("".equals(username)) {
-            return new Message(400, "Please fill in the username", null);
+            return new Message(0, "Please fill in the username", null);
         }
 
         //密码为空
         if (("".equals(password))) {
-            return new Message(400, "Please fill in the password", null);
+            return new Message(0, "Please fill in the password", null);
         }
 
+        //数据库查询
         User userInDB = userDao.findUserByUsername(username);
+
         //用户不存在
         if (userInDB == null) {
-            return new Message(401, "User is not existed", null);
+            return new Message(10, "User is not existed", null);
         }
 
         //密码不正确
         if (!password.equals(userInDB.getPassword())) {
-            return new Message(401, "Password Error", null);
+            return new Message(0, "Password Error", null);
         }
 
         //验证成功
@@ -75,13 +82,18 @@ public class UserService {
             //生成令牌
             String jwtToken = Jwts.builder()
                     .setSubject(username)
-                    .claim("roles", "member")
+                    .claim("roles", userInDB.getAuthority())
                     .setIssuedAt(new Date())
-                    .signWith(SignatureAlgorithm.HS256, "securityKey")
+                    .signWith(SignatureAlgorithm.HS256, "secretkey")
                     .compact();
-            return new Message(201, "success", jwtToken);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id", userInDB.getId());
+            map.put("username", userInDB.getUsername());
+            map.put("image", userInDB.getImage());
+            map.put("role", userInDB.getAuthority());
+            map.put("token", jwtToken);
+            return new Message(1, "success", map);
         }
-
     }
 
 //    /**

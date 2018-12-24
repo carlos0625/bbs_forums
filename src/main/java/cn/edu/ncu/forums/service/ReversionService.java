@@ -26,7 +26,7 @@ public class ReversionService {
      */
     public Message addReversion(Reversion reversion) {
         reversionDao.save(reversion);
-        return new Message(201, "add success", reversion);
+        return new Message(1, "add success", reversion);
     }
 
     /**
@@ -35,7 +35,7 @@ public class ReversionService {
      * @return 返回消息
      */
     public Message findByCommentId(Long commentId) {
-        return new Message(200, "success", reversionDao.findReversionsByCommentId(commentId));
+        return new Message(1, "success", reversionDao.findReversionsByCommentId(commentId));
     }
 
     /**
@@ -45,6 +45,6 @@ public class ReversionService {
      */
     public Message delete(Long reversionId) {
         reversionDao.deleteById(reversionId);
-        return new Message(204, "modify success", null);
+        return new Message(1, "modify success", null);
     }
 }

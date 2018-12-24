@@ -1,11 +1,14 @@
 package cn.edu.ncu.forums.dao;
 
 import cn.edu.ncu.forums.entity.Article;
+import cn.edu.ncu.forums.multiple.UserArticle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Description: article的dao层，封装数据库操作
@@ -75,4 +78,16 @@ public interface ArticleDao extends JpaRepository<Article, Long> {
      */
     @Transactional
     void deleteById(Long id);
+
+    /**
+     * 多表查询，查出某篇文章的
+     * username，image，articleId，title，subtitle，createdTime, likeNum, dislikeNum, tag
+     * @return 复杂类型
+     */
+    @Query(value = "select a.username as username, a.image as image, a.authority as authority, b.created_time as createdTime, " +
+            "b.id as articleId, b.title as title, b.sub_title as subTitle, b.picked as picked, " +
+            "b.comment_number as commentNum, " +
+            "b.liked_number as likeNum, b.disliked_number as dislikeNum, b.tag as tag " +
+            "from User a, Article b where a.id = b.user_id", nativeQuery = true)
+    List<UserArticle> findUserArticle();
 }

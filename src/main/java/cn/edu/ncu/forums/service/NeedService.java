@@ -33,7 +33,7 @@ public class NeedService {
      */
     public Message addNeed(Need need) {
         needDao.save(need);
-        return new Message(201, "add need successfully", need);
+        return new Message(1, "add need successfully", need);
     }
 
     /**
@@ -43,7 +43,7 @@ public class NeedService {
      */
     public Message deleteNeed(Long needId) {
         needDao.deleteById(needId);
-        return new Message(204, "delete need successfully", null);
+        return new Message(1, "delete need successfully", null);
     }
 
     /**
@@ -59,6 +59,6 @@ public class NeedService {
         for (Need need: bookPage) {
             needs.add(need);
         }
-        return new Message(200, "get the needs successfully", needs);
+        return new Message(1, "get the needs successfully", needs);
     }
 }

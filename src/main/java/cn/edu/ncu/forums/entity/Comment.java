@@ -23,6 +23,7 @@ public class Comment {
     private Long userId;//评论所属用户
 
     @Column(nullable = false)
+
     private Timestamp commentTime;//评论时间
 
     @Column(nullable = false)
