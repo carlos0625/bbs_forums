@@ -3,6 +3,7 @@ package cn.edu.ncu.forums.controller;
 import cn.edu.ncu.forums.entity.Article;
 import cn.edu.ncu.forums.service.ArticleService;
 import cn.edu.ncu.forums.utils.Message;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -65,8 +66,6 @@ public class ArticleController {
     public Message setPicked(@RequestParam("picked") Boolean picked, @RequestParam("id") Long articleId) {
         return articleService.updatePicked(picked, articleId);
     }
-
-
     /**
      * 用户或管理员修改文章api, url: localhost:8090/article/updateContent
      * @param content 新的内容
@@ -75,10 +74,10 @@ public class ArticleController {
      */
     @PostMapping("/updateContent")
     @ResponseBody
-    public Message updateContent(String content, Long articleId) {
-        return articleService.updateContent(content, articleId);
+    public Message updateContent(@RequestBody Article art) {
+        System.out.println(art);
+        return articleService.updateArticle(art);
     }
-
     /**
      * 用户或管理员删除文章api, url: localhost:8090/article/delete
      * @param articleId 文章Id

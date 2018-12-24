@@ -27,17 +27,17 @@ public interface UserDao extends JpaRepository<User, Long> {
      */
     User findUserByUsername(String username);
 
-//    /**
-//     * 修改用户信息
-//     * @param phone 手机号
-//     * @param work 工作
-//     * @param address 地址
-//     * @param id id
-//     */
-//    @Transactional
-//    @Modifying
-//    @Query("update User set phone = ?1, work = ?2, address = ?3 where id = ?4")
-//    void updateUser(String phone, String work, String address, Long id);
+    /**
+     * 修改用户信息
+     * @param phone 手机号
+     * @param work 工作
+     * @param address 地址
+     * @param id id
+     */
+    @Transactional
+    @Modifying
+    @Query("update User set phone = ?1, work = ?2, address = ?3 where id = ?4")
+    void updateUser(String phone, String work, String address, Long id);
 
 //    /**
 //     * 修改用户头像

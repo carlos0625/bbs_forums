@@ -97,12 +97,11 @@ public class ArticleService {
 
     /**
      * 修改内容
-     * @param content 文章内容
-     * @param articleId 用户id
+
      * @return message
      */
-    public Message updateContent(String content, Long articleId) {
-        articleDao.updateContentById(content, articleId);
+    public Message updateArticle(Article art) {
+        articleDao.saveAndFlush(art);
         return new Message(1, "modified content success", null);
     }
 

@@ -37,7 +37,6 @@ public class CommentService {
         commentDao.save(comment);
         return new Message(1, "success", comment);
     }
-
     /**
      * 根据文章id查询所有评论
      * @param articleId 文章的id

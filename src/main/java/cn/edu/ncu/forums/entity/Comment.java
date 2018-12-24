@@ -25,7 +25,6 @@ public class Comment {
     @Column(nullable = false)
 
     private Timestamp commentTime;//评论时间
-
     @Column(nullable = false)
     private String content;//评论内容
 

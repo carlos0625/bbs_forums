@@ -44,6 +44,11 @@ public class UserController {
         return userService.login(user);
     }
 
+    @PostMapping("/updateUser")
+    @ResponseBody
+    public  Message updateUser(User user){
+        return  userService.updateUser(user);
+    }
 //    /**
 //     * 查询所有用户
 //     * @return 所有用户列表

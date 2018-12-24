@@ -124,13 +124,14 @@ public class UserService {
 //        return new Message(111, "allow you to do it", null);
 //    }
 
-//    /**
-//     * 更新/完善用户信息,修改手机号，工作，地址
-//     * @param user 用户对象
-//     */
-//    public void updateUser(User user) {
-//        userDao.updateUser(user.getPhone(), user.getWork(), user.getAddress(), user.getId());
-//    }
+    /**
+     * 更新/完善用户信息,修改手机号，工作，地址
+     * @param user 用户对象
+     */
+    public Message updateUser(User user) {
+       userDao.updateUser(user.getPhone(), user.getWork(), user.getAddress(), user.getId());
+        return new Message(1, "success",1);
+    }
 
 //    /**
 //     * 修改用户头像
